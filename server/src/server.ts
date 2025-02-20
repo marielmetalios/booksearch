@@ -22,14 +22,10 @@ db.once('open', () => {
   app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
 });
 
-
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-mongoose.connect(dbUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(dbUri)
   .then(() => console.log('Connected to MongoDB'))
   .catch((error: any) => console.error('Error connecting to MongoDB:', error));
 
