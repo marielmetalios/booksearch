@@ -9,23 +9,13 @@ const PORT = process.env.PORT || 3001;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// // if we're in production, serve client/build as static assets
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static('/client/dist'));
-// }
-
-const dbUri = process.env.NODE_ENV === 'production' ? process.env.MONGO_URI && app.use(express.static('/client/dist')) : process.env.MONGODB_URI;
+// if we're in PROD, serve client/build as static assets
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/dist'));
+}
 
 app.use(routes);
 
 db.once('open', () => {
-  app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
+  app.listen(PORT, () => console.log(`Listening on localhost:${PORT}`));
 });
-
-require('dotenv').config();
-const mongoose = require('mongoose');
-
-mongoose.connect(dbUri)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((error: any) => console.error('Error connecting to MongoDB:', error));
-
